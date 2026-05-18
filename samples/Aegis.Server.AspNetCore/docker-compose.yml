@@ -1,0 +1,19 @@
+services:
+  wraith-license-server:
+    container_name: wraith-license-server
+    build:
+      context: ../..
+      dockerfile: samples/Aegis.Server.AspNetCore/Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/data
+      - ./logs:/app/logs
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - ASPNETCORE_ENVIRONMENT=Production
+      # Override secrets from .env or shell:
+      #   JwtSettings__Secret / JwtSettings__Salt / AdminSeed__Password
+    env_file:
+      - .env
