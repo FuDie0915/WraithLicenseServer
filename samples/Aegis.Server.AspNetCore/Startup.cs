@@ -47,14 +47,6 @@ public class Startup(IConfiguration configuration)
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        // Initialize database (EnsureCreated + seed roles & admin user)
-        using (var scope = app.ApplicationServices.CreateScope())
-        {
-            var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            db.Database.EnsureCreated();
-            DatabaseSeeder.SeedAsync(db, scope.ServiceProvider, configuration).GetAwaiter().GetResult();
-        }
-
         if (env.IsDevelopment())
         {
             app.UseSwagger();

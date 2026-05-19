@@ -1,0 +1,297 @@
+root@lavm-0kp5rq14e7:/www/wwwroot/WraithLicenseServer/samples/Aegis.Server.AspNetCore# docker compose logs wraith-license-server --tail 200
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  | Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  | [00:14:52 ERR] Hosting failed to start
+wraith-license-server  | Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.Monitor() in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 38
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.ExecuteAsync(CancellationToken stoppingToken) in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 23
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+wraith-license-server  | Unhandled exception. Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.Monitor() in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 38
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.ExecuteAsync(CancellationToken stoppingToken) in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 23
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+wraith-license-server  |    at Aegis.Server.AspNetCore.Program.Main(String[] args) in /src/samples/Aegis.Server.AspNetCore/Program.cs:line 9
+wraith-license-server  |    at Aegis.Server.AspNetCore.Program.<Main>(String[] args)
+wraith-license-server  | [00:15:45 WRN] Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+wraith-license-server  | [00:15:46 ERR] Failed executing DbCommand (11ms) [Parameters=[@__timeoutThreshold_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+wraith-license-server  | SELECT "a"."Id", "a"."ActivationDate", "a"."LastHeartbeat", "a"."LicenseId", "a"."MachineId", "a"."UserId"
+wraith-license-server  | FROM "Activations" AS "a"
+wraith-license-server  | WHERE "a"."LastHeartbeat" < @__timeoutThreshold_0
+wraith-license-server  | [00:15:46 ERR] An exception occurred while iterating over the results of a query for context type 'Aegis.Server.AspNetCore.Data.Context.ApplicationDbContext'.
+wraith-license-server  | Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  | Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  | [00:15:46 ERR] Hosting failed to start
+wraith-license-server  | Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.Monitor() in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 38
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.ExecuteAsync(CancellationToken stoppingToken) in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 23
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+wraith-license-server  | Unhandled exception. Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.Monitor() in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 38
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.ExecuteAsync(CancellationToken stoppingToken) in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 23
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+wraith-license-server  |    at Aegis.Server.AspNetCore.Program.Main(String[] args) in /src/samples/Aegis.Server.AspNetCore/Program.cs:line 9
+wraith-license-server  |    at Aegis.Server.AspNetCore.Program.<Main>(String[] args)
+wraith-license-server  | [00:16:48 WRN] Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+wraith-license-server  | [00:16:49 ERR] Failed executing DbCommand (16ms) [Parameters=[@__timeoutThreshold_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+wraith-license-server  | SELECT "a"."Id", "a"."ActivationDate", "a"."LastHeartbeat", "a"."LicenseId", "a"."MachineId", "a"."UserId"
+wraith-license-server  | FROM "Activations" AS "a"
+wraith-license-server  | WHERE "a"."LastHeartbeat" < @__timeoutThreshold_0
+wraith-license-server  | [00:16:50 ERR] An exception occurred while iterating over the results of a query for context type 'Aegis.Server.AspNetCore.Data.Context.ApplicationDbContext'.
+wraith-license-server  | Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  | Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  | [00:16:50 ERR] Hosting failed to start
+wraith-license-server  | Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.Monitor() in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 38
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.ExecuteAsync(CancellationToken stoppingToken) in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 23
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+wraith-license-server  | Unhandled exception. Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.Monitor() in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 38
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.ExecuteAsync(CancellationToken stoppingToken) in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 23
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+wraith-license-server  |    at Aegis.Server.AspNetCore.Program.Main(String[] args) in /src/samples/Aegis.Server.AspNetCore/Program.cs:line 9
+wraith-license-server  |    at Aegis.Server.AspNetCore.Program.<Main>(String[] args)
+root@lavm-0kp5rq14e7:/www/wwwroot/WraithLicenseServer/samples/Aegis.Server.AspNetCore# uname -m
+x86_64
+root@lavm-0kp5rq14e7:/www/wwwroot/WraithLicenseServer/samples/Aegis.Server.AspNetCore# docker info | grep -i -E "Architecture|Server Version|Operating"
+ Server Version: 29.5.1
+ Operating System: Ubuntu 24.04.4 LTS
+ Architecture: x86_64
+root@lavm-0kp5rq14e7:/www/wwwroot/WraithLicenseServer/samples/Aegis.Server.AspNetCore# ls -la data/ .env
+-rw-r--r-- 1 root root  372 May 19 08:05 .env
+
+data/:
+total 8
+drwxr-xr-x  2 root root 4096 May 19 08:13 .
+drwxr-xr-x 14 root root 4096 May 19 08:13 ..
+-rw-r--r--  1 root root    0 May 19 08:13 aegis.db
+root@lavm-0kp5rq14e7:/www/wwwroot/WraithLicenseServer/samples/Aegis.Server.AspNetCore# docker compose logs wraith-license-server 2>&1 | head -80
+wraith-license-server  | [00:13:28 WRN] Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+wraith-license-server  | [00:13:28 WRN] No XML encryptor configured. Key {57d87eac-4ea9-4b78-8de9-e4661af62114} may be persisted to storage in unencrypted form.
+wraith-license-server  | [00:13:30 ERR] Failed executing DbCommand (14ms) [Parameters=[@__timeoutThreshold_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+wraith-license-server  | SELECT "a"."Id", "a"."ActivationDate", "a"."LastHeartbeat", "a"."LicenseId", "a"."MachineId", "a"."UserId"
+wraith-license-server  | FROM "Activations" AS "a"
+wraith-license-server  | WHERE "a"."LastHeartbeat" < @__timeoutThreshold_0
+wraith-license-server  | [00:13:30 ERR] An exception occurred while iterating over the results of a query for context type 'Aegis.Server.AspNetCore.Data.Context.ApplicationDbContext'.
+wraith-license-server  | Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  | Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  | [00:13:30 ERR] Hosting failed to start
+wraith-license-server  | Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.Monitor() in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 38
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.ExecuteAsync(CancellationToken stoppingToken) in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 23
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+wraith-license-server  | Unhandled exception. Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.Monitor() in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 38
+wraith-license-server  |    at Aegis.Server.Services.HeartbeatMonitor.ExecuteAsync(CancellationToken stoppingToken) in /src/src/Aegis.Server/Services/HeartbeatMonitor.cs:line 23
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+wraith-license-server  |    at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+wraith-license-server  |    at Aegis.Server.AspNetCore.Program.Main(String[] args) in /src/samples/Aegis.Server.AspNetCore/Program.cs:line 9
+wraith-license-server  |    at Aegis.Server.AspNetCore.Program.<Main>(String[] args)
+wraith-license-server  | [00:13:33 WRN] Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+wraith-license-server  | [00:13:35 ERR] Failed executing DbCommand (10ms) [Parameters=[@__timeoutThreshold_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+wraith-license-server  | SELECT "a"."Id", "a"."ActivationDate", "a"."LastHeartbeat", "a"."LicenseId", "a"."MachineId", "a"."UserId"
+wraith-license-server  | FROM "Activations" AS "a"
+wraith-license-server  | WHERE "a"."LastHeartbeat" < @__timeoutThreshold_0
+wraith-license-server  | [00:13:35 ERR] An exception occurred while iterating over the results of a query for context type 'Aegis.Server.AspNetCore.Data.Context.ApplicationDbContext'.
+wraith-license-server  | Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: Activations'.
+root@lavm-0kp5rq14e7:/www/wwwroot/WraithLicenseServer/samples/Aegis.Server.AspNetCore# 
