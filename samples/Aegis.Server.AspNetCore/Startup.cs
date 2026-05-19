@@ -63,6 +63,7 @@ public class Startup(IConfiguration configuration)
         }
 
         app.UseSerilogRequestLogging()
+            .UseStaticFiles()
             .UseRouting()
             .UseAuthentication()
             .UseAuthorization()

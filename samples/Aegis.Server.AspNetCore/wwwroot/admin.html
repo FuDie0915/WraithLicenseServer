@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wraith — License Admin</title>
+<style>
+  :root {
+    --bg-0: #0A0A0A;
+    --bg-1: #111111;
+    --bg-2: #1A1A1A;
+    --card: #1E1E1E;
+    --border: #333333;
+    --border-soft: #2A2A2A;
+    --text: #FFFFFF;
+    --text-dim: #888888;
+    --text-soft: #BBBBBB;
+    --accent: #8B3FE5;
+    --accent-dark: #531DAB;
+    --accent-soft: #3F108A;
+    --danger: #E62345;
+    --success: #4CAF50;
+    --warning: #FFA726;
+    --mono: "Consolas", "JetBrains Mono", "Courier New", monospace;
+    --sans: "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: var(--sans);
+    color: var(--text);
+    background: radial-gradient(ellipse at center, var(--bg-0) 0%, var(--bg-1) 60%, var(--bg-2) 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  button { font-family: var(--sans); cursor: pointer; }
+  input, select { font-family: var(--sans); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: #B374FF; }
+
+  /* ===== Login view ===== */
+  #login-view {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 24px;
+  }
+  .login-card {
+    width: 420px; max-width: 100%; padding: 40px 36px;
+    background: rgba(26, 26, 26, 0.85);
+    border: 1px solid var(--border-soft);
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6),
+                0 0 50px rgba(139, 63, 229, 0.08);
+    backdrop-filter: blur(6px);
+  }
+  .brand {
+    text-align: center; margin-bottom: 28px;
+  }
+  .brand-logo {
+    width: 56px; height: 56px; margin: 0 auto 14px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 24px rgba(139, 63, 229, 0.35);
+  }
+  .brand-logo svg { width: 32px; height: 32px; fill: white; }
+  .brand-title {
+    font-size: 22px; font-weight: 300; letter-spacing: 4px;
+    background: linear-gradient(90deg, #FFFFFF, #B8B8B8);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .brand-subtitle {
+    font-size: 10px; color: var(--text-dim); letter-spacing: 2px;
+    margin-top: 4px;
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block; font-size: 11px; color: var(--text-dim);
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;
+  }
+  .input {
+    width: 100%; height: 42px; padding: 0 14px;
+    background: rgba(26,26,26,0.6);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text); font-size: 14px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+  }
+  .input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(139,63,229,0.15);
+  }
+  .input[type=number] { font-family: var(--mono); }
+  .btn {
+    width: 100%; height: 44px; border: none;
+    border-radius: 8px; color: white;
+    background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+    font-size: 14px; font-weight: 600; letter-spacing: 1px;
+    transition: filter 0.15s, transform 0.05s;
+  }
+  .btn:hover:not(:disabled) {
+    filter: brightness(1.15);
+    box-shadow: 0 6px 18px rgba(139,63,229,0.35);
+  }
+  .btn:active:not(:disabled) { transform: translateY(1px); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-secondary {
+    background: rgba(255,255,255,0.05); color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background: rgba(255,255,255,0.08); border-color: var(--accent);
+    box-shadow: none;
+  }
+  .btn-danger {
+    background: rgba(230, 35, 69, 0.15); color: var(--danger);
+    border: 1px solid rgba(230, 35, 69, 0.4);
+  }
+  .btn-danger:hover:not(:disabled) {
+    background: rgba(230, 35, 69, 0.25); box-shadow: none;
+  }
+  .btn-small {
+    width: auto; height: 30px; padding: 0 14px;
+    font-size: 12px; letter-spacing: 0.5px; font-weight: 500;
+  }
+  .error-text {
+    margin-top: 10px; min-height: 18px;
+    color: var(--danger); font-size: 12px;
+    text-align: center;
+  }
+
+  /* ===== App layout ===== */
+  #app-view { display: none; }
+  .header {
+    position: sticky; top: 0; z-index: 10;
+    height: 56px; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(15,15,15,0.85);
+    border-bottom: 1px solid var(--border-soft);
+    backdrop-filter: blur(8px);
+  }
+  .header-brand {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; letter-spacing: 3px; font-weight: 300;
+  }
+  .header-brand .brand-logo { width: 32px; height: 32px; margin: 0; border-radius: 8px; }
+  .header-brand .brand-logo svg { width: 18px; height: 18px; }
+  .header-nav { display: flex; gap: 4px; }
+  .nav-link {
+    padding: 8px 16px; border-radius: 6px;
+    color: var(--text-soft); font-size: 13px; font-weight: 500;
+    background: transparent; border: none;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-link:hover { background: rgba(255,255,255,0.05); color: white; }
+  .nav-link.active {
+    background: rgba(139,63,229,0.15); color: var(--accent);
+  }
+  .header-user {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 12px; color: var(--text-dim);
+  }
+  .header-user .user-name { color: var(--text); }
+
+  .main {
+    max-width: 1100px; margin: 0 auto; padding: 28px 24px 64px;
+  }
+  .page-title {
+    font-size: 20px; font-weight: 400; margin-bottom: 4px;
+    color: var(--text);
+  }
+  .page-subtitle {
+    font-size: 12px; color: var(--text-dim); margin-bottom: 22px;
+  }
+
+  .card {
+    background: var(--card); border: 1px solid var(--border-soft);
+    border-radius: 12px; padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card h3 {
+    font-size: 13px; color: var(--text-dim);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 16px; font-weight: 500;
+  }
+
+  .form-row {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+  }
+  .actions {
+    display: flex; gap: 12px; margin-top: 6px;
+  }
+  .actions .btn { width: auto; padding: 0 22px; }
+
+  /* ===== Table ===== */
+  .table-wrap {
+    border: 1px solid var(--border-soft); border-radius: 12px;
+    overflow: hidden;
+  }
+  table {
+    width: 100%; border-collapse: collapse; font-size: 13px;
+  }
+  th, td {
+    text-align: left; padding: 12px 14px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  th {
+    background: rgba(255,255,255,0.02);
+    color: var(--text-dim); font-weight: 500;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  td.key { font-family: var(--mono); font-size: 12px; color: #DDD; }
+  td .pill {
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 11px; font-weight: 500;
+  }
+  .pill-valid { background: rgba(76,175,80,0.15); color: var(--success); }
+  .pill-revoked { background: rgba(230,35,69,0.15); color: var(--danger); }
+  .pill-expired { background: rgba(255,167,38,0.15); color: var(--warning); }
+  .pill-inactive { background: rgba(136,136,136,0.15); color: var(--text-dim); }
+  .pill-active { background: rgba(139,63,229,0.15); color: var(--accent); }
+
+  .empty {
+    padding: 40px; text-align: center; color: var(--text-dim);
+    font-size: 13px;
+  }
+
+  /* ===== Toast ===== */
+  #toast {
+    position: fixed; bottom: 24px; right: 24px; z-index: 100;
+    min-width: 260px; max-width: 380px;
+    padding: 14px 18px; border-radius: 10px;
+    background: var(--card); border: 1px solid var(--border);
+    font-size: 13px; color: var(--text);
+    transform: translateY(20px); opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+  #toast.success { border-color: var(--success); }
+  #toast.error { border-color: var(--danger); }
+
+  /* ===== Result list (after generate) ===== */
+  .result-summary {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px; border-radius: 8px;
+    background: rgba(139,63,229,0.08);
+    border: 1px solid rgba(139,63,229,0.25);
+    margin-bottom: 14px; font-size: 13px;
+  }
+
+  /* ===== Pagination ===== */
+  .pagination {
+    display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;
+    font-size: 12px; color: var(--text-dim);
+    align-items: center;
+  }
+  .pagination button {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-soft); padding: 4px 10px; border-radius: 6px;
+    font-size: 12px;
+  }
+  .pagination button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ===== Misc ===== */
+  .small { font-size: 11px; color: var(--text-dim); }
+  .copy-btn {
+    background: transparent; border: none; color: var(--text-dim);
+    cursor: pointer; padding: 2px 4px; margin-left: 6px;
+    font-size: 11px;
+  }
+  .copy-btn:hover { color: var(--accent); }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ====== LOGIN VIEW ====== -->
+<div id="login-view">
+  <div class="login-card">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg viewBox="0 0 16 16">
+          <path d="M 8 0 C 3.58 0 0 3.58 0 8 L 0 14 C 0 14 1.5 12 3 12 C 4.5 12 5 13 6 13 C 7 13 7.5 12 8 12 C 8.5 12 9 13 10 13 C 11 13 11.5 12 13 12 C 14.5 12 16 14 16 14 L 16 8 C 16 3.58 12.42 0 8 0 Z M 5 7 C 5.55 7 6 6.55 6 6 C 6 5.45 5.55 5 5 5 C 4.45 5 4 5.45 4 6 C 4 6.55 4.45 7 5 7 Z M 11 7 C 11.55 7 12 6.55 12 6 C 12 5.45 11.55 5 11 5 C 10.45 5 10 5.45 10 6 C 10 6.55 10.45 7 11 7 Z"/>
+        </svg>
+      </div>
+      <div class="brand-title">WRAITH</div>
+      <div class="brand-subtitle">LICENSE ADMIN</div>
+    </div>
+    <form id="login-form" autocomplete="off">
+      <div class="form-group">
+        <label class="form-label" for="login-username">用户名</label>
+        <input class="input" id="login-username" type="text" autocomplete="username" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="login-password">密码</label>
+        <input class="input" id="login-password" type="password" autocomplete="current-password" required>
+      </div>
+      <button class="btn" id="login-btn" type="submit">登 录</button>
+      <div class="error-text" id="login-error"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ====== APP VIEW ====== -->
+<div id="app-view">
+  <header class="header">
+    <div class="header-brand">
+      <div class="brand-logo">
+        <svg viewBox="0 0 16 16">
+          <path d="M 8 0 C 3.58 0 0 3.58 0 8 L 0 14 C 0 14 1.5 12 3 12 C 4.5 12 5 13 6 13 C 7 13 7.5 12 8 12 C 8.5 12 9 13 10 13 C 11 13 11.5 12 13 12 C 14.5 12 16 14 16 14 L 16 8 C 16 3.58 12.42 0 8 0 Z M 5 7 C 5.55 7 6 6.55 6 6 C 6 5.45 5.55 5 5 5 C 4.45 5 4 5.45 4 6 C 4 6.55 4.45 7 5 7 Z M 11 7 C 11.55 7 12 6.55 12 6 C 12 5.45 11.55 5 11 5 C 10.45 5 10 5.45 10 6 C 10 6.55 10.45 7 11 7 Z"/>
+        </svg>
+      </div>
+      WRAITH
+    </div>
+    <nav class="header-nav">
+      <button class="nav-link" data-page="generate">生成卡密</button>
+      <button class="nav-link" data-page="list">卡密列表</button>
+    </nav>
+    <div class="header-user">
+      <span class="user-name" id="header-username">—</span>
+      <button class="nav-link" id="logout-btn">退出</button>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Generate page -->
+    <section id="page-generate" class="page">
+      <h1 class="page-title">生成卡密</h1>
+      <p class="page-subtitle">批量生成 Concurrent 类型卡密，激活后才开始计时。</p>
+
+      <div class="card">
+        <h3>生成参数</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="gen-count">数量</label>
+            <input class="input" type="number" id="gen-count" min="1" max="10000" value="10">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="gen-days">有效期（天）</label>
+            <input class="input" type="number" id="gen-days" min="1" max="3650" value="30">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="gen-concurrent">并发数</label>
+            <input class="input" type="number" id="gen-concurrent" min="1" max="1000" value="1">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="gen-issuedto">发放给（备注）</label>
+            <input class="input" type="text" id="gen-issuedto" placeholder="可选" value="Wraith User">
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn" id="gen-btn" style="width:auto;padding:0 28px">立即生成</button>
+        </div>
+      </div>
+
+      <div class="card hidden" id="gen-result-card">
+        <h3>本次生成结果</h3>
+        <div class="result-summary">
+          <span id="gen-result-summary-text">—</span>
+          <button class="btn btn-secondary btn-small" id="gen-download-csv" style="width:auto">下载 CSV</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th style="width:60%">License Key</th><th>有效期</th><th>并发</th><th></th></tr>
+            </thead>
+            <tbody id="gen-result-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- List page -->
+    <section id="page-list" class="page hidden">
+      <h1 class="page-title">卡密列表</h1>
+      <p class="page-subtitle">所有 Concurrent 卡密的当前状态。</p>
+
+      <div class="card" style="padding:0">
+        <div class="table-wrap" style="border:none">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:38%">License Key</th>
+                <th>状态</th>
+                <th>有效期</th>
+                <th>过期时间</th>
+                <th>占用 / 并发</th>
+                <th>首次激活</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="list-body">
+              <tr><td colspan="7" class="empty">加载中…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span id="list-info">—</span>
+          <button id="list-prev">← 上一页</button>
+          <button id="list-next">下一页 →</button>
+          <button id="list-refresh" style="margin-left:12px">刷新</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+(() => {
+  const STORAGE_TOKEN = 'wraith_admin_token';
+  const STORAGE_USER = 'wraith_admin_user';
+  const PAGE_SIZE = 50;
+
+  const $ = (q) => document.querySelector(q);
+  const $$ = (q) => document.querySelectorAll(q);
+
+  // ===== Toast =====
+  let toastTimer = null;
+  function toast(msg, kind) {
+    const el = $('#toast');
+    el.textContent = msg;
+    el.className = 'show ' + (kind || '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { el.className = ''; }, 3000);
+  }
+
+  // ===== Auth =====
+  function getToken() { return localStorage.getItem(STORAGE_TOKEN) || ''; }
+  function setToken(t, u) {
+    localStorage.setItem(STORAGE_TOKEN, t);
+    if (u) localStorage.setItem(STORAGE_USER, u);
+  }
+  function clearAuth() {
+    localStorage.removeItem(STORAGE_TOKEN);
+    localStorage.removeItem(STORAGE_USER);
+  }
+
+  async function apiFetch(path, opts) {
+    opts = opts || {};
+    opts.headers = opts.headers || {};
+    const token = getToken();
+    if (token) opts.headers['Authorization'] = 'Bearer ' + token;
+    if (opts.body && !opts.headers['Content-Type'] && typeof opts.body === 'string') {
+      opts.headers['Content-Type'] = 'application/json';
+    }
+    const resp = await fetch(path, opts);
+    if (resp.status === 401) {
+      clearAuth(); showLogin();
+      toast('登录已过期，请重新登录', 'error');
+      throw new Error('Unauthorized');
+    }
+    if (resp.status === 429) {
+      toast('请求过于频繁，请稍后再试', 'error');
+      throw new Error('Rate limited');
+    }
+    return resp;
+  }
+
+  // ===== View switching =====
+  function showLogin() {
+    $('#login-view').style.display = '';
+    $('#app-view').style.display = 'none';
+    setTimeout(() => $('#login-username').focus(), 50);
+  }
+  function showApp() {
+    $('#login-view').style.display = 'none';
+    $('#app-view').style.display = '';
+    $('#header-username').textContent = localStorage.getItem(STORAGE_USER) || 'admin';
+    navigate(location.hash.replace('#', '') || 'generate');
+  }
+  function navigate(page) {
+    if (!['generate','list'].includes(page)) page = 'generate';
+    location.hash = page;
+    $$('.page').forEach(el => el.classList.add('hidden'));
+    $('#page-' + page).classList.remove('hidden');
+    $$('.nav-link[data-page]').forEach(el => el.classList.toggle('active', el.dataset.page === page));
+    if (page === 'list') loadList(0);
+  }
+
+  // ===== Login form =====
+  $('#login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = $('#login-username').value.trim();
+    const password = $('#login-password').value;
+    if (!username || !password) return;
+
+    const btn = $('#login-btn'); btn.disabled = true; btn.textContent = '登录中…';
+    $('#login-error').textContent = '';
+
+    try {
+      const resp = await fetch('/api/Authentication/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ Username: username, Password: password })
+      });
+      if (resp.status === 401) {
+        $('#login-error').textContent = '用户名或密码错误';
+        return;
+      }
+      if (!resp.ok) {
+        $('#login-error').textContent = '登录失败（HTTP ' + resp.status + '）';
+        return;
+      }
+      const data = await resp.json();
+      setToken(data.AccessToken || data.accessToken, username);
+      showApp();
+      toast('登录成功', 'success');
+    } catch (err) {
+      $('#login-error').textContent = '网络错误：' + err.message;
+    } finally {
+      btn.disabled = false; btn.textContent = '登 录';
+    }
+  });
+
+  // ===== Logout =====
+  $('#logout-btn').addEventListener('click', () => {
+    clearAuth(); showLogin(); toast('已退出', 'success');
+  });
+
+  // ===== Nav =====
+  $$('.nav-link[data-page]').forEach(el => {
+    el.addEventListener('click', () => navigate(el.dataset.page));
+  });
+  window.addEventListener('hashchange', () => navigate(location.hash.replace('#','') || 'generate'));
+
+  // ===== Generate =====
+  let lastGeneratedCsv = null;
+  let lastGeneratedFilename = 'licenses.csv';
+
+  $('#gen-btn').addEventListener('click', async () => {
+    const count = parseInt($('#gen-count').value, 10);
+    const days = parseInt($('#gen-days').value, 10);
+    const concurrent = parseInt($('#gen-concurrent').value, 10);
+    const issuedTo = $('#gen-issuedto').value.trim() || 'Wraith User';
+
+    if (!(count >= 1 && count <= 10000)) return toast('数量需在 1–10000', 'error');
+    if (!(days >= 1 && days <= 3650)) return toast('有效期需在 1–3650 天', 'error');
+    if (!(concurrent >= 1 && concurrent <= 1000)) return toast('并发数需在 1–1000', 'error');
+
+    const btn = $('#gen-btn'); btn.disabled = true; btn.textContent = '生成中…';
+    try {
+      const resp = await apiFetch('/api/AdminLicenses/generate', {
+        method: 'POST',
+        body: JSON.stringify({
+          Count: count, ValidityDays: days,
+          MaxConcurrentUsers: concurrent, IssuedTo: issuedTo
+        })
+      });
+      if (!resp.ok) {
+        const t = await resp.text();
+        toast('生成失败：' + (t || resp.status), 'error'); return;
+      }
+      const csv = await resp.text();
+      lastGeneratedCsv = csv;
+      const cd = resp.headers.get('Content-Disposition') || '';
+      const m = cd.match(/filename="?([^"]+)"?/i);
+      lastGeneratedFilename = m ? m[1] : ('wraith-licenses-' + new Date().toISOString().replace(/[:.]/g,'-') + '.csv');
+      renderGenResult(csv, count, days, concurrent);
+      toast('已生成 ' + count + ' 张卡密', 'success');
+    } catch (err) {
+      if (err.message !== 'Unauthorized' && err.message !== 'Rate limited')
+        toast('生成失败：' + err.message, 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = '立即生成';
+    }
+  });
+
+  function renderGenResult(csv, count, days, concurrent) {
+    $('#gen-result-card').classList.remove('hidden');
+    $('#gen-result-summary-text').textContent =
+      '共 ' + count + ' 张 | 有效期 ' + days + ' 天 | 并发 ' + concurrent;
+    const body = $('#gen-result-body');
+    body.innerHTML = '';
+    const lines = csv.split(/\r?\n/).filter(l => l && !l.startsWith('LicenseKey,'));
+    for (const line of lines) {
+      const cols = line.split(',');
+      if (cols.length < 3) continue;
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td class="key">' + escapeHtml(cols[0]) +
+          '<button class="copy-btn" data-copy="' + escapeHtml(cols[0]) + '" title="复制">⧉</button></td>' +
+        '<td>' + escapeHtml(cols[1]) + ' 天</td>' +
+        '<td>' + escapeHtml(cols[2]) + '</td>' +
+        '<td></td>';
+      body.appendChild(tr);
+    }
+    bindCopyButtons();
+  }
+
+  $('#gen-download-csv').addEventListener('click', () => {
+    if (!lastGeneratedCsv) return;
+    const blob = new Blob([lastGeneratedCsv], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = lastGeneratedFilename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+
+  // ===== List =====
+  let listSkip = 0;
+
+  async function loadList(skip) {
+    listSkip = Math.max(0, skip || 0);
+    const body = $('#list-body');
+    body.innerHTML = '<tr><td colspan="7" class="empty">加载中…</td></tr>';
+    try {
+      const resp = await apiFetch('/api/AdminLicenses/list?skip=' + listSkip + '&take=' + PAGE_SIZE);
+      if (!resp.ok) { body.innerHTML = '<tr><td colspan="7" class="empty">加载失败（' + resp.status + '）</td></tr>'; return; }
+      const rows = await resp.json();
+      renderList(rows);
+    } catch (err) {
+      body.innerHTML = '<tr><td colspan="7" class="empty">加载失败：' + escapeHtml(err.message) + '</td></tr>';
+    }
+  }
+
+  function renderList(rows) {
+    const body = $('#list-body');
+    if (!rows || rows.length === 0) {
+      body.innerHTML = '<tr><td colspan="7" class="empty">没有卡密</td></tr>';
+      $('#list-info').textContent = listSkip === 0 ? '0 条' : ('第 ' + listSkip + ' 条起，没有更多');
+      $('#list-prev').disabled = listSkip === 0;
+      $('#list-next').disabled = true;
+      return;
+    }
+    body.innerHTML = rows.map(r => {
+      const status = statusName(r.status ?? r.Status);
+      const expired = r.expirationDate ?? r.ExpirationDate;
+      const firstAct = r.firstActivatedAt ?? r.FirstActivatedAt;
+      const validity = r.validityDays ?? r.ValidityDays;
+      const maxC = r.maxActiveUsersCount ?? r.MaxActiveUsersCount;
+      const activeC = r.activeUsersCount ?? r.ActiveUsersCount ?? 0;
+      const key = r.licenseKey ?? r.LicenseKey;
+      const activatedPill = firstAct
+        ? '<span class="pill pill-active" title="已激活">已激活</span>'
+        : '<span class="pill pill-inactive">未激活</span>';
+      return '<tr>' +
+        '<td class="key">' + escapeHtml(key) +
+          '<button class="copy-btn" data-copy="' + escapeHtml(key) + '" title="复制">⧉</button></td>' +
+        '<td>' + statusPill(status) + '</td>' +
+        '<td>' + (validity != null ? validity + ' 天' : '—') + '</td>' +
+        '<td>' + formatDate(expired) + '</td>' +
+        '<td>' + activeC + ' / ' + (maxC ?? '—') + '</td>' +
+        '<td>' + activatedPill + ' ' + (firstAct ? '<span class="small">' + formatDate(firstAct) + '</span>' : '') + '</td>' +
+        '<td><button class="btn btn-danger btn-small" data-revoke="' + escapeHtml(key) + '">吊销</button></td>' +
+      '</tr>';
+    }).join('');
+
+    $('#list-info').textContent = '第 ' + (listSkip + 1) + '–' + (listSkip + rows.length) + ' 条';
+    $('#list-prev').disabled = listSkip === 0;
+    $('#list-next').disabled = rows.length < PAGE_SIZE;
+
+    bindCopyButtons();
+    $$('[data-revoke]').forEach(b => b.addEventListener('click', () => revokeLicense(b.dataset.revoke)));
+  }
+
+  function statusName(s) {
+    // Aegis enum LicenseStatus: 0 Valid, 1 Revoked, 2 Expired, 3 Invalid
+    const map = { 0: 'Valid', 1: 'Revoked', 2: 'Expired', 3: 'Invalid' };
+    return typeof s === 'number' ? (map[s] || ('未知(' + s + ')')) : (s || '—');
+  }
+  function statusPill(name) {
+    const m = { Valid: 'pill-valid', Revoked: 'pill-revoked', Expired: 'pill-expired', Invalid: 'pill-revoked' };
+    const cls = m[name] || 'pill-inactive';
+    const text = { Valid: '有效', Revoked: '已吊销', Expired: '已过期', Invalid: '无效' }[name] || name;
+    return '<span class="pill ' + cls + '">' + text + '</span>';
+  }
+  function formatDate(s) {
+    if (!s) return '<span class="small">—</span>';
+    try {
+      const d = new Date(s);
+      if (isNaN(d.getTime())) return '<span class="small">—</span>';
+      return '<span class="small">' + d.toLocaleString('zh-CN', { hour12: false }) + '</span>';
+    } catch { return '<span class="small">—</span>'; }
+  }
+
+  async function revokeLicense(key) {
+    if (!confirm('确认吊销卡密\n' + key + ' ?')) return;
+    try {
+      const resp = await apiFetch('/api/AdminLicenses/revoke?licenseKey=' + encodeURIComponent(key), {
+        method: 'POST'
+      });
+      if (!resp.ok) { toast('吊销失败（HTTP ' + resp.status + '）', 'error'); return; }
+      toast('已吊销', 'success');
+      loadList(listSkip);
+    } catch (err) {
+      if (err.message !== 'Unauthorized') toast('吊销失败：' + err.message, 'error');
+    }
+  }
+
+  $('#list-prev').addEventListener('click', () => loadList(Math.max(0, listSkip - PAGE_SIZE)));
+  $('#list-next').addEventListener('click', () => loadList(listSkip + PAGE_SIZE));
+  $('#list-refresh').addEventListener('click', () => loadList(listSkip));
+
+  // ===== Copy buttons (delegated rebind after rerender) =====
+  function bindCopyButtons() {
+    $$('[data-copy]').forEach(btn => {
+      btn.onclick = async (e) => {
+        e.stopPropagation();
+        const v = btn.dataset.copy;
+        try {
+          await navigator.clipboard.writeText(v);
+          toast('已复制', 'success');
+        } catch {
+          toast('复制失败，请手动选择', 'error');
+        }
+      };
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  // ===== Boot =====
+  if (getToken()) showApp(); else showLogin();
+})();
+</script>
+</body>
+</html>
