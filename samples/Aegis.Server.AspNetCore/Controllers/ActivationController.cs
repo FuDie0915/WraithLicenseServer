@@ -110,6 +110,46 @@ public class ActivationController(
                 ErrorMessage = "会话令牌无效或已过期，请重新激活。"
             });
 
+        // Check current license status (admin may have revoked / it may have expired since activation)
+        var license = await dbContext.Licenses
+            .AsNoTracking()
+            .FirstOrDefaultAsync(l => l.LicenseKey == session.LicenseKey);
+
+        if (license == null)
+        {
+            sessionTokenService.Revoke(request.SessionToken);
+            return StatusCode(StatusCodes.Status410Gone, new HeartbeatResponse
+            {
+                Valid = false,
+                ErrorCode = "LICENSE_NOT_FOUND",
+                ErrorMessage = "卡密不存在。"
+            });
+        }
+
+        if (license.Status == LicenseStatus.Revoked)
+        {
+            await licenseService.DisconnectConcurrentLicenseUser(session.LicenseKey, session.HardwareId);
+            sessionTokenService.Revoke(request.SessionToken);
+            return StatusCode(StatusCodes.Status410Gone, new HeartbeatResponse
+            {
+                Valid = false,
+                ErrorCode = "LICENSE_REVOKED",
+                ErrorMessage = "卡密已被吊销。"
+            });
+        }
+
+        if (license.ExpirationDate.HasValue && license.ExpirationDate.Value < DateTime.UtcNow)
+        {
+            await licenseService.DisconnectConcurrentLicenseUser(session.LicenseKey, session.HardwareId);
+            sessionTokenService.Revoke(request.SessionToken);
+            return StatusCode(StatusCodes.Status410Gone, new HeartbeatResponse
+            {
+                Valid = false,
+                ErrorCode = "LICENSE_EXPIRED",
+                ErrorMessage = "卡密已过期。"
+            });
+        }
+
         var success = await licenseService.HeartbeatAsync(session.LicenseKey, session.HardwareId);
         if (!success)
         {
@@ -124,15 +164,11 @@ public class ActivationController(
 
         var newExpiry = sessionTokenService.Refresh(request.SessionToken, SessionTokenValidity);
 
-        var license = await dbContext.Licenses
-            .AsNoTracking()
-            .FirstOrDefaultAsync(l => l.LicenseKey == session.LicenseKey);
-
         return Ok(new HeartbeatResponse
         {
             Valid = true,
             NewExpiryUtc = newExpiry,
-            LicenseExpiryUtc = license?.ExpirationDate
+            LicenseExpiryUtc = license.ExpirationDate
         });
     }
 
