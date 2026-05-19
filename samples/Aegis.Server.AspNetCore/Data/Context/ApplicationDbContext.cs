@@ -22,11 +22,12 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .HasForeignKey<RefreshToken>(r => r.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // User - License (One-to-Many)
+        // User - License (One-to-Many, License.UserId 可空 — Wraith 卡密无账号归属)
         modelBuilder.Entity<User>()
             .HasMany(u => u.Licenses)
             .WithOne()
             .HasForeignKey(l => l.UserId)
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.Cascade);
 
         // LicenseExtension - License (One-to-One, LicenseId as PK)

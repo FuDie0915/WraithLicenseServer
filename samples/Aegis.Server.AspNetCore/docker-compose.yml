@@ -5,7 +5,7 @@ services:
       context: ../..
       dockerfile: samples/Aegis.Server.AspNetCore/Dockerfile
     ports:
-      - "8080:8080"
+      - "1444:8080"
     volumes:
       - ./data:/data
       - ./logs:/app/logs

@@ -215,7 +215,7 @@ public class LicenseService(AegisDbContext dbContext)
                     dbContext.Activations.Add(new Activation
                     {
                         LicenseId = license.LicenseId,
-                        UserId = license.UserId,
+                        UserId = license.UserId ?? Guid.Empty,
                         MachineId = hardwareId!,
                         ActivationDate = DateTime.UtcNow
                     });

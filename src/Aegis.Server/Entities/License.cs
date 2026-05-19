@@ -22,5 +22,5 @@ public class License
     public Product Product { get; init; } = null!;
     public ICollection<LicenseFeature> LicenseFeatures { get; init; } = [];
     public ICollection<Activation> Activations { get; init; } = [];
-    public Guid UserId { get; init; } = Guid.Empty;
+    public Guid? UserId { get; init; }
 }

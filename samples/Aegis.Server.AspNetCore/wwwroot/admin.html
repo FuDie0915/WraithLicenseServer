@@ -467,13 +467,13 @@
 
   // ===== View switching =====
   function showLogin() {
-    $('#login-view').style.display = '';
+    $('#login-view').style.display = 'flex';
     $('#app-view').style.display = 'none';
     setTimeout(() => $('#login-username').focus(), 50);
   }
   function showApp() {
     $('#login-view').style.display = 'none';
-    $('#app-view').style.display = '';
+    $('#app-view').style.display = 'block';
     $('#header-username').textContent = localStorage.getItem(STORAGE_USER) || 'admin';
     navigate(location.hash.replace('#', '') || 'generate');
   }
