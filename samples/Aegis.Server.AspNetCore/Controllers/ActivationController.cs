@@ -22,7 +22,7 @@ public class ActivationController(
     private const int HeartbeatIntervalSec = 30;
 
     [HttpPost("activate")]
-    [RateLimitingMiddleware(5, "00:01:00")]
+    [RateLimitingMiddleware(20, "00:01:00")]
     public async Task<IActionResult> Activate([FromBody] ActivationRequest request)
     {
         if (string.IsNullOrWhiteSpace(request.LicenseKey) || string.IsNullOrWhiteSpace(request.HardwareId))
@@ -173,7 +173,7 @@ public class ActivationController(
     }
 
     [HttpPost("logout")]
-    [RateLimitingMiddleware(20, "00:01:00")]
+    [RateLimitingMiddleware(30, "00:01:00")]
     public async Task<IActionResult> Logout([FromBody] LogoutRequestDto request)
     {
         var session = sessionTokenService.Resolve(request.SessionToken);

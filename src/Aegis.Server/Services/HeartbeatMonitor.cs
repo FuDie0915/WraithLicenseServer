@@ -7,8 +7,8 @@ namespace Aegis.Server.Services;
 
 public class HeartbeatMonitor(IServiceProvider serviceProvider) : BackgroundService
 {
-    private readonly TimeSpan _checkInterval = TimeSpan.FromSeconds(30);
-    private readonly TimeSpan _heartbeatTimeout = TimeSpan.FromMinutes(2);
+    private readonly TimeSpan _checkInterval = TimeSpan.FromSeconds(15);
+    private readonly TimeSpan _heartbeatTimeout = TimeSpan.FromSeconds(60);
     private readonly IServiceScopeFactory _scopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
 
     /// <summary>
