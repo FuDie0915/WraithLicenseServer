@@ -52,9 +52,7 @@
                 0 0 50px rgba(139, 63, 229, 0.08);
     backdrop-filter: blur(6px);
   }
-  .brand {
-    text-align: center; margin-bottom: 28px;
-  }
+  .brand { text-align: center; margin-bottom: 28px; }
   .brand-logo {
     width: 56px; height: 56px; margin: 0 auto 14px;
     border-radius: 14px;
@@ -78,7 +76,7 @@
     display: block; font-size: 11px; color: var(--text-dim);
     text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;
   }
-  .input {
+  .input, .select {
     width: 100%; height: 42px; padding: 0 14px;
     background: rgba(26,26,26,0.6);
     border: 1px solid var(--border);
@@ -87,11 +85,12 @@
     transition: border-color 0.15s, box-shadow 0.15s;
     outline: none;
   }
-  .input:focus {
+  .input:focus, .select:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(139,63,229,0.15);
   }
   .input[type=number] { font-family: var(--mono); }
+  .input-sm { height: 30px; padding: 0 10px; font-size: 12px; }
   .btn {
     width: 100%; height: 44px; border: none;
     border-radius: 8px; color: white;
@@ -120,9 +119,14 @@
   .btn-danger:hover:not(:disabled) {
     background: rgba(230, 35, 69, 0.25); box-shadow: none;
   }
+  .btn-warning {
+    background: rgba(255,167,38,0.15); color: var(--warning);
+    border: 1px solid rgba(255,167,38,0.4);
+  }
+  .btn-warning:hover:not(:disabled) { background: rgba(255,167,38,0.25); box-shadow: none; }
   .btn-small {
-    width: auto; height: 30px; padding: 0 14px;
-    font-size: 12px; letter-spacing: 0.5px; font-weight: 500;
+    width: auto; height: 28px; padding: 0 10px;
+    font-size: 11px; letter-spacing: 0.3px; font-weight: 500;
   }
   .error-text {
     margin-top: 10px; min-height: 18px;
@@ -164,7 +168,7 @@
   .header-user .user-name { color: var(--text); }
 
   .main {
-    max-width: 1100px; margin: 0 auto; padding: 28px 24px 64px;
+    max-width: 1280px; margin: 0 auto; padding: 28px 24px 64px;
   }
   .page-title {
     font-size: 20px; font-weight: 400; margin-bottom: 4px;
@@ -194,6 +198,26 @@
   }
   .actions .btn { width: auto; padding: 0 22px; }
 
+  /* ===== Toolbar ===== */
+  .toolbar {
+    display: flex; gap: 10px; align-items: center;
+    padding: 14px 16px; flex-wrap: wrap;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .toolbar .input, .toolbar .select { height: 34px; font-size: 12px; }
+  .toolbar .search-input { width: 240px; }
+  .toolbar .status-select { width: 140px; }
+  .toolbar .spacer { flex: 1; }
+  .batch-bar {
+    display: none; align-items: center; gap: 10px;
+    padding: 10px 16px;
+    background: rgba(139,63,229,0.08);
+    border-bottom: 1px solid rgba(139,63,229,0.25);
+    font-size: 12px;
+  }
+  .batch-bar.show { display: flex; }
+  .batch-bar .count { color: var(--accent); font-weight: 600; }
+
   /* ===== Table ===== */
   .table-wrap {
     border: 1px solid var(--border-soft); border-radius: 12px;
@@ -203,8 +227,9 @@
     width: 100%; border-collapse: collapse; font-size: 13px;
   }
   th, td {
-    text-align: left; padding: 12px 14px;
+    text-align: left; padding: 10px 12px;
     border-bottom: 1px solid var(--border-soft);
+    vertical-align: middle;
   }
   th {
     background: rgba(255,255,255,0.02);
@@ -213,6 +238,7 @@
   }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: rgba(255,255,255,0.02); }
+  tr.editing td { background: rgba(139,63,229,0.06); }
   td.key { font-family: var(--mono); font-size: 12px; color: #DDD; }
   td .pill {
     display: inline-block; padding: 2px 8px; border-radius: 10px;
@@ -227,6 +253,15 @@
   .empty {
     padding: 40px; text-align: center; color: var(--text-dim);
     font-size: 13px;
+  }
+
+  .row-actions { display: flex; gap: 4px; flex-wrap: nowrap; }
+
+  /* Checkbox */
+  .chk {
+    width: 16px; height: 16px;
+    accent-color: var(--accent);
+    cursor: pointer;
   }
 
   /* ===== Toast ===== */
@@ -255,9 +290,11 @@
 
   /* ===== Pagination ===== */
   .pagination {
-    display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;
+    display: flex; justify-content: flex-end; gap: 8px; margin-top: 0;
+    padding: 12px 16px;
     font-size: 12px; color: var(--text-dim);
     align-items: center;
+    border-top: 1px solid var(--border-soft);
   }
   .pagination button {
     background: transparent; border: 1px solid var(--border);
@@ -276,6 +313,26 @@
   }
   .copy-btn:hover { color: var(--accent); }
   .hidden { display: none !important; }
+
+  /* hidden textarea used as copy fallback */
+  #copy-fallback {
+    position: fixed; left: -9999px; top: 0;
+    opacity: 0; pointer-events: none;
+  }
+
+  /* Editing input cell */
+  td input.edit-input, td select.edit-select {
+    width: 100%; height: 28px; padding: 0 6px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text); font-size: 12px;
+    font-family: var(--mono);
+    outline: none;
+  }
+  td input.edit-input:focus, td select.edit-select:focus {
+    border-color: var(--accent);
+  }
 </style>
 </head>
 <body>
@@ -350,7 +407,7 @@
             <input class="input" type="number" id="gen-concurrent" min="1" max="1000" value="1">
           </div>
           <div class="form-group">
-            <label class="form-label" for="gen-issuedto">发放给（备注）</label>
+            <label class="form-label" for="gen-issuedto">备注 / 发放给</label>
             <input class="input" type="text" id="gen-issuedto" placeholder="可选" value="Wraith User">
           </div>
         </div>
@@ -379,24 +436,52 @@
     <!-- List page -->
     <section id="page-list" class="page hidden">
       <h1 class="page-title">卡密列表</h1>
-      <p class="page-subtitle">所有 Concurrent 卡密的当前状态。</p>
+      <p class="page-subtitle">所有 Concurrent 卡密的当前状态。支持按卡密 / 备注搜索 + 按状态过滤。</p>
 
       <div class="card" style="padding:0">
-        <div class="table-wrap" style="border:none">
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <input class="input search-input" id="list-search" type="text" placeholder="按卡密精确匹配 / 按备注包含">
+          <select class="select status-select" id="list-status-filter">
+            <option value="">全部状态</option>
+            <option value="Valid">有效</option>
+            <option value="Revoked">已吊销</option>
+            <option value="Expired">已过期</option>
+            <option value="Invalid">无效</option>
+          </select>
+          <button class="btn btn-secondary btn-small" id="list-search-btn" style="width:auto">搜索</button>
+          <button class="btn btn-secondary btn-small" id="list-reset-btn" style="width:auto">重置</button>
+          <span class="spacer"></span>
+          <button class="btn btn-secondary btn-small" id="list-refresh" style="width:auto">刷新</button>
+        </div>
+
+        <!-- Batch bar (only visible when something selected) -->
+        <div class="batch-bar" id="batch-bar">
+          已选 <span class="count" id="batch-count">0</span> 条
+          <button class="btn btn-warning btn-small" id="batch-revoke-btn" style="width:auto">批量吊销</button>
+          <button class="btn btn-secondary btn-small" id="batch-unrevoke-btn" style="width:auto">批量恢复</button>
+          <button class="btn btn-danger btn-small" id="batch-delete-btn" style="width:auto">批量删除</button>
+          <span class="spacer"></span>
+          <button class="btn btn-secondary btn-small" id="batch-clear-btn" style="width:auto">取消选择</button>
+        </div>
+
+        <div class="table-wrap" style="border:none;border-radius:0">
           <table>
             <thead>
               <tr>
-                <th style="width:38%">License Key</th>
+                <th style="width:36px"><input type="checkbox" class="chk" id="chk-all"></th>
+                <th style="width:30%">License Key</th>
                 <th>状态</th>
                 <th>有效期</th>
                 <th>过期时间</th>
                 <th>占用 / 并发</th>
+                <th>备注</th>
                 <th>首次激活</th>
-                <th></th>
+                <th style="min-width:180px"></th>
               </tr>
             </thead>
             <tbody id="list-body">
-              <tr><td colspan="7" class="empty">加载中…</td></tr>
+              <tr><td colspan="9" class="empty">加载中…</td></tr>
             </tbody>
           </table>
         </div>
@@ -404,7 +489,6 @@
           <span id="list-info">—</span>
           <button id="list-prev">← 上一页</button>
           <button id="list-next">下一页 →</button>
-          <button id="list-refresh" style="margin-left:12px">刷新</button>
         </div>
       </div>
     </section>
@@ -413,6 +497,7 @@
 
 <!-- Toast -->
 <div id="toast"></div>
+<textarea id="copy-fallback" readonly></textarea>
 
 <script>
 (() => {
@@ -532,6 +617,55 @@
   });
   window.addEventListener('hashchange', () => navigate(location.hash.replace('#','') || 'generate'));
 
+  // ===== Copy with three-tier fallback =====
+  // 1) navigator.clipboard (HTTPS / localhost only)
+  // 2) document.execCommand('copy') via hidden textarea (HTTP fallback)
+  // 3) select the source element so user can hit Ctrl+C
+  async function copyText(value, sourceEl) {
+    if (!value) return false;
+    // Tier 1
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(value);
+        toast('已复制', 'success');
+        return true;
+      } catch { /* fallthrough */ }
+    }
+    // Tier 2
+    try {
+      const ta = $('#copy-fallback');
+      ta.value = value;
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, value.length);
+      const ok = document.execCommand && document.execCommand('copy');
+      ta.blur();
+      if (ok) { toast('已复制', 'success'); return true; }
+    } catch { /* fallthrough */ }
+    // Tier 3 — select source text for manual Ctrl+C
+    try {
+      if (sourceEl) {
+        const range = document.createRange();
+        range.selectNodeContents(sourceEl);
+        const sel = window.getSelection();
+        sel.removeAllRanges(); sel.addRange(range);
+      }
+    } catch { /* ignore */ }
+    toast('已选中文本，请按 Ctrl+C 复制', 'error');
+    return false;
+  }
+
+  function bindCopyButtons() {
+    $$('[data-copy]').forEach(btn => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        const v = btn.dataset.copy;
+        // Source = previous text node sibling (the key span)
+        copyText(v, btn.parentElement);
+      };
+    });
+  }
+
   // ===== Generate =====
   let lastGeneratedCsv = null;
   let lastGeneratedFilename = 'licenses.csv';
@@ -586,7 +720,7 @@
       if (cols.length < 3) continue;
       const tr = document.createElement('tr');
       tr.innerHTML =
-        '<td class="key">' + escapeHtml(cols[0]) +
+        '<td class="key"><span>' + escapeHtml(cols[0]) + '</span>' +
           '<button class="copy-btn" data-copy="' + escapeHtml(cols[0]) + '" title="复制">⧉</button></td>' +
         '<td>' + escapeHtml(cols[1]) + ' 天</td>' +
         '<td>' + escapeHtml(cols[2]) + '</td>' +
@@ -608,63 +742,277 @@
 
   // ===== List =====
   let listSkip = 0;
+  let listTotal = 0;
+  let listSearch = '';
+  let listStatus = '';
+  let selectedKeys = new Set();
+  let editingKey = null;
 
   async function loadList(skip) {
     listSkip = Math.max(0, skip || 0);
+    selectedKeys.clear();
+    editingKey = null;
+    updateBatchBar();
     const body = $('#list-body');
-    body.innerHTML = '<tr><td colspan="7" class="empty">加载中…</td></tr>';
+    body.innerHTML = '<tr><td colspan="9" class="empty">加载中…</td></tr>';
     try {
-      const resp = await apiFetch('/api/AdminLicenses/list?skip=' + listSkip + '&take=' + PAGE_SIZE);
-      if (!resp.ok) { body.innerHTML = '<tr><td colspan="7" class="empty">加载失败（' + resp.status + '）</td></tr>'; return; }
-      const rows = await resp.json();
+      const params = new URLSearchParams({
+        skip: String(listSkip),
+        take: String(PAGE_SIZE)
+      });
+      if (listSearch) params.set('search', listSearch);
+      if (listStatus) params.set('status', listStatus);
+      const resp = await apiFetch('/api/AdminLicenses/list?' + params.toString());
+      if (!resp.ok) {
+        body.innerHTML = '<tr><td colspan="9" class="empty">加载失败（' + resp.status + '）</td></tr>';
+        return;
+      }
+      const data = await resp.json();
+      // Accept both new shape { total, items } and legacy array
+      const rows = Array.isArray(data) ? data : (data.items || []);
+      listTotal = Array.isArray(data) ? rows.length : (data.total || 0);
       renderList(rows);
     } catch (err) {
-      body.innerHTML = '<tr><td colspan="7" class="empty">加载失败：' + escapeHtml(err.message) + '</td></tr>';
+      body.innerHTML = '<tr><td colspan="9" class="empty">加载失败：' + escapeHtml(err.message) + '</td></tr>';
     }
   }
 
   function renderList(rows) {
     const body = $('#list-body');
     if (!rows || rows.length === 0) {
-      body.innerHTML = '<tr><td colspan="7" class="empty">没有卡密</td></tr>';
-      $('#list-info').textContent = listSkip === 0 ? '0 条' : ('第 ' + listSkip + ' 条起，没有更多');
+      body.innerHTML = '<tr><td colspan="9" class="empty">没有卡密</td></tr>';
+      $('#list-info').textContent = '0 条';
       $('#list-prev').disabled = listSkip === 0;
       $('#list-next').disabled = true;
+      $('#chk-all').checked = false;
       return;
     }
-    body.innerHTML = rows.map(r => {
-      const status = statusName(r.status ?? r.Status);
-      const expired = r.expirationDate ?? r.ExpirationDate;
-      const firstAct = r.firstActivatedAt ?? r.FirstActivatedAt;
-      const validity = r.validityDays ?? r.ValidityDays;
-      const maxC = r.maxActiveUsersCount ?? r.MaxActiveUsersCount;
-      const activeC = r.activeUsersCount ?? r.ActiveUsersCount ?? 0;
-      const key = r.licenseKey ?? r.LicenseKey;
-      const activatedPill = firstAct
-        ? '<span class="pill pill-active" title="已激活">已激活</span>'
-        : '<span class="pill pill-inactive">未激活</span>';
-      return '<tr>' +
-        '<td class="key">' + escapeHtml(key) +
-          '<button class="copy-btn" data-copy="' + escapeHtml(key) + '" title="复制">⧉</button></td>' +
-        '<td>' + statusPill(status) + '</td>' +
-        '<td>' + (validity != null ? validity + ' 天' : '—') + '</td>' +
-        '<td>' + formatDate(expired) + '</td>' +
-        '<td>' + activeC + ' / ' + (maxC ?? '—') + '</td>' +
-        '<td>' + activatedPill + ' ' + (firstAct ? '<span class="small">' + formatDate(firstAct) + '</span>' : '') + '</td>' +
-        '<td><button class="btn btn-danger btn-small" data-revoke="' + escapeHtml(key) + '">吊销</button></td>' +
-      '</tr>';
-    }).join('');
+    body.innerHTML = rows.map(r => renderRow(r)).join('');
 
-    $('#list-info').textContent = '第 ' + (listSkip + 1) + '–' + (listSkip + rows.length) + ' 条';
+    const showingTo = Math.min(listSkip + rows.length, listTotal || (listSkip + rows.length));
+    $('#list-info').textContent =
+      '第 ' + (listSkip + 1) + '–' + showingTo + ' 条 / 共 ' + (listTotal || rows.length) + ' 条';
     $('#list-prev').disabled = listSkip === 0;
-    $('#list-next').disabled = rows.length < PAGE_SIZE;
+    $('#list-next').disabled = (listSkip + rows.length) >= (listTotal || (listSkip + rows.length));
+    $('#chk-all').checked = false;
 
     bindCopyButtons();
-    $$('[data-revoke]').forEach(b => b.addEventListener('click', () => revokeLicense(b.dataset.revoke)));
+    bindRowEvents(rows);
   }
 
+  function renderRow(r) {
+    const key = r.licenseKey ?? r.LicenseKey;
+    const status = statusName(r.status ?? r.Status);
+    const expired = r.expirationDate ?? r.ExpirationDate;
+    const firstAct = r.firstActivatedAt ?? r.FirstActivatedAt;
+    const validity = r.validityDays ?? r.ValidityDays;
+    const maxC = r.maxActiveUsersCount ?? r.MaxActiveUsersCount;
+    const activeC = r.activeUsersCount ?? r.ActiveUsersCount ?? 0;
+    const issuedTo = r.issuedTo ?? r.IssuedTo ?? '';
+    const activatedPill = firstAct
+      ? '<span class="pill pill-active">已激活</span>'
+      : '<span class="pill pill-inactive">未激活</span>';
+    const checked = selectedKeys.has(key) ? 'checked' : '';
+
+    if (editingKey === key) {
+      return '<tr class="editing" data-key="' + escapeHtml(key) + '">' +
+        '<td><input type="checkbox" class="chk row-chk" data-key="' + escapeHtml(key) + '" ' + checked + '></td>' +
+        '<td class="key"><span>' + escapeHtml(key) + '</span>' +
+          '<button class="copy-btn" data-copy="' + escapeHtml(key) + '" title="复制">⧉</button></td>' +
+        '<td><select class="edit-select" data-field="status">' +
+          ['Valid','Revoked','Expired','Invalid'].map(s =>
+            '<option value="' + s + '"' + (s === status ? ' selected' : '') + '>' +
+            ({Valid:'有效',Revoked:'已吊销',Expired:'已过期',Invalid:'无效'}[s]) + '</option>').join('') +
+          '</select></td>' +
+        '<td><input class="edit-input" type="number" min="1" max="3650" data-field="validityDays" value="' + (validity ?? '') + '"></td>' +
+        '<td>' + formatDate(expired) + '</td>' +
+        '<td><input class="edit-input" type="number" min="1" max="1000" data-field="maxConcurrent" value="' + (maxC ?? '') + '"> <span class="small">/ 占 ' + activeC + '</span></td>' +
+        '<td><input class="edit-input" type="text" data-field="issuedTo" value="' + escapeHtml(issuedTo) + '"></td>' +
+        '<td>' + activatedPill + ' ' + (firstAct ? '<span class="small">' + formatDate(firstAct) + '</span>' : '') + '</td>' +
+        '<td><div class="row-actions">' +
+          '<button class="btn btn-small" data-save="' + escapeHtml(key) + '" style="width:auto">保存</button>' +
+          '<button class="btn btn-secondary btn-small" data-cancel-edit="1" style="width:auto">取消</button>' +
+        '</div></td>' +
+      '</tr>';
+    }
+
+    const isRevoked = status === 'Revoked';
+    return '<tr data-key="' + escapeHtml(key) + '">' +
+      '<td><input type="checkbox" class="chk row-chk" data-key="' + escapeHtml(key) + '" ' + checked + '></td>' +
+      '<td class="key"><span>' + escapeHtml(key) + '</span>' +
+        '<button class="copy-btn" data-copy="' + escapeHtml(key) + '" title="复制">⧉</button></td>' +
+      '<td>' + statusPill(status) + '</td>' +
+      '<td>' + (validity != null ? validity + ' 天' : '—') + '</td>' +
+      '<td>' + formatDate(expired) + '</td>' +
+      '<td>' + activeC + ' / ' + (maxC ?? '—') + '</td>' +
+      '<td><span class="small">' + escapeHtml(issuedTo || '—') + '</span></td>' +
+      '<td>' + activatedPill + ' ' + (firstAct ? '<span class="small">' + formatDate(firstAct) + '</span>' : '') + '</td>' +
+      '<td><div class="row-actions">' +
+        '<button class="btn btn-secondary btn-small" data-edit="' + escapeHtml(key) + '" style="width:auto">编辑</button>' +
+        (isRevoked
+          ? '<button class="btn btn-warning btn-small" data-unrevoke="' + escapeHtml(key) + '" style="width:auto">恢复</button>'
+          : '<button class="btn btn-warning btn-small" data-revoke="' + escapeHtml(key) + '" style="width:auto">吊销</button>') +
+        '<button class="btn btn-danger btn-small" data-delete="' + escapeHtml(key) + '" style="width:auto">删除</button>' +
+      '</div></td>' +
+    '</tr>';
+  }
+
+  function bindRowEvents(rows) {
+    $$('.row-chk').forEach(c => {
+      c.onchange = () => {
+        const k = c.dataset.key;
+        if (c.checked) selectedKeys.add(k); else selectedKeys.delete(k);
+        updateBatchBar();
+      };
+    });
+    $$('[data-edit]').forEach(b => b.onclick = () => { editingKey = b.dataset.edit; renderList(rows); });
+    $$('[data-cancel-edit]').forEach(b => b.onclick = () => { editingKey = null; renderList(rows); });
+    $$('[data-save]').forEach(b => b.onclick = () => saveEdit(b.dataset.save));
+    $$('[data-revoke]').forEach(b => b.onclick = () => revokeOne(b.dataset.revoke));
+    $$('[data-unrevoke]').forEach(b => b.onclick = () => unrevokeOne(b.dataset.unrevoke));
+    $$('[data-delete]').forEach(b => b.onclick = () => deleteOne(b.dataset.delete));
+  }
+
+  function updateBatchBar() {
+    const bar = $('#batch-bar');
+    $('#batch-count').textContent = String(selectedKeys.size);
+    bar.classList.toggle('show', selectedKeys.size > 0);
+  }
+
+  $('#chk-all').addEventListener('change', (e) => {
+    const checked = e.target.checked;
+    $$('.row-chk').forEach(c => {
+      c.checked = checked;
+      const k = c.dataset.key;
+      if (checked) selectedKeys.add(k); else selectedKeys.delete(k);
+    });
+    updateBatchBar();
+  });
+
+  $('#batch-clear-btn').addEventListener('click', () => {
+    selectedKeys.clear();
+    $$('.row-chk').forEach(c => c.checked = false);
+    $('#chk-all').checked = false;
+    updateBatchBar();
+  });
+
+  // ===== Edit save =====
+  async function saveEdit(key) {
+    const tr = document.querySelector('tr[data-key="' + cssEscape(key) + '"]');
+    if (!tr) return;
+    const validityDays = parseInt(tr.querySelector('[data-field="validityDays"]').value, 10);
+    const maxConcurrent = parseInt(tr.querySelector('[data-field="maxConcurrent"]').value, 10);
+    const issuedTo = tr.querySelector('[data-field="issuedTo"]').value;
+    const status = tr.querySelector('[data-field="status"]').value;
+
+    if (isNaN(validityDays) || validityDays < 1 || validityDays > 3650)
+      return toast('有效期需在 1–3650 天', 'error');
+    if (isNaN(maxConcurrent) || maxConcurrent < 1 || maxConcurrent > 1000)
+      return toast('并发数需在 1–1000', 'error');
+
+    try {
+      const resp = await apiFetch('/api/AdminLicenses/update', {
+        method: 'POST',
+        body: JSON.stringify({
+          LicenseKey: key,
+          ValidityDays: validityDays,
+          MaxConcurrentUsers: maxConcurrent,
+          IssuedTo: issuedTo,
+          Status: status
+        })
+      });
+      if (!resp.ok) { toast('保存失败（HTTP ' + resp.status + '）', 'error'); return; }
+      toast('已保存', 'success');
+      editingKey = null;
+      loadList(listSkip);
+    } catch (err) {
+      if (err.message !== 'Unauthorized') toast('保存失败：' + err.message, 'error');
+    }
+  }
+
+  // ===== Single revoke / unrevoke / delete =====
+  async function revokeOne(key) {
+    if (!confirm('确认吊销卡密\n' + key + ' ?')) return;
+    try {
+      const resp = await apiFetch('/api/AdminLicenses/revoke?licenseKey=' + encodeURIComponent(key), { method: 'POST' });
+      if (!resp.ok) { toast('吊销失败（HTTP ' + resp.status + '）', 'error'); return; }
+      toast('已吊销', 'success');
+      loadList(listSkip);
+    } catch (err) { if (err.message !== 'Unauthorized') toast('吊销失败：' + err.message, 'error'); }
+  }
+
+  async function unrevokeOne(key) {
+    if (!confirm('确认恢复卡密\n' + key + ' ?')) return;
+    try {
+      const resp = await apiFetch('/api/AdminLicenses/unrevoke-batch', {
+        method: 'POST',
+        body: JSON.stringify({ LicenseKeys: [key] })
+      });
+      if (!resp.ok) { toast('恢复失败（HTTP ' + resp.status + '）', 'error'); return; }
+      toast('已恢复', 'success');
+      loadList(listSkip);
+    } catch (err) { if (err.message !== 'Unauthorized') toast('恢复失败：' + err.message, 'error'); }
+  }
+
+  async function deleteOne(key) {
+    if (!confirm('确认永久删除卡密（不可恢复）\n' + key + ' ?')) return;
+    try {
+      const resp = await apiFetch('/api/AdminLicenses/delete', {
+        method: 'POST',
+        body: JSON.stringify({ LicenseKeys: [key] })
+      });
+      if (!resp.ok) { toast('删除失败（HTTP ' + resp.status + '）', 'error'); return; }
+      toast('已删除', 'success');
+      loadList(listSkip);
+    } catch (err) { if (err.message !== 'Unauthorized') toast('删除失败：' + err.message, 'error'); }
+  }
+
+  // ===== Batch actions =====
+  $('#batch-revoke-btn').addEventListener('click', () => batchAction('revoke-batch', '吊销', '吊销'));
+  $('#batch-unrevoke-btn').addEventListener('click', () => batchAction('unrevoke-batch', '恢复', '恢复'));
+  $('#batch-delete-btn').addEventListener('click', () => batchAction('delete', '永久删除（不可恢复）', '删除'));
+
+  async function batchAction(endpoint, actionLabel, doneLabel) {
+    if (selectedKeys.size === 0) return;
+    if (!confirm('确认批量' + actionLabel + ' ' + selectedKeys.size + ' 条卡密?')) return;
+    const keys = Array.from(selectedKeys);
+    try {
+      const resp = await apiFetch('/api/AdminLicenses/' + endpoint, {
+        method: 'POST',
+        body: JSON.stringify({ LicenseKeys: keys })
+      });
+      if (!resp.ok) { toast(doneLabel + '失败（HTTP ' + resp.status + '）', 'error'); return; }
+      const data = await resp.json();
+      const affected = data.affected ?? keys.length;
+      toast('已' + doneLabel + ' ' + affected + ' 条', 'success');
+      selectedKeys.clear();
+      loadList(listSkip);
+    } catch (err) {
+      if (err.message !== 'Unauthorized') toast(doneLabel + '失败：' + err.message, 'error');
+    }
+  }
+
+  // ===== Search / filter / paging =====
+  $('#list-search-btn').addEventListener('click', () => {
+    listSearch = $('#list-search').value.trim();
+    listStatus = $('#list-status-filter').value;
+    loadList(0);
+  });
+  $('#list-search').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); $('#list-search-btn').click(); }
+  });
+  $('#list-reset-btn').addEventListener('click', () => {
+    $('#list-search').value = '';
+    $('#list-status-filter').value = '';
+    listSearch = ''; listStatus = '';
+    loadList(0);
+  });
+  $('#list-prev').addEventListener('click', () => loadList(Math.max(0, listSkip - PAGE_SIZE)));
+  $('#list-next').addEventListener('click', () => loadList(listSkip + PAGE_SIZE));
+  $('#list-refresh').addEventListener('click', () => loadList(listSkip));
+
+  // ===== Helpers =====
   function statusName(s) {
-    // Aegis enum LicenseStatus: 0 Valid, 1 Revoked, 2 Expired, 3 Invalid
     const map = { 0: 'Valid', 1: 'Revoked', 2: 'Expired', 3: 'Invalid' };
     return typeof s === 'number' ? (map[s] || ('未知(' + s + ')')) : (s || '—');
   }
@@ -682,45 +1030,13 @@
       return '<span class="small">' + d.toLocaleString('zh-CN', { hour12: false }) + '</span>';
     } catch { return '<span class="small">—</span>'; }
   }
-
-  async function revokeLicense(key) {
-    if (!confirm('确认吊销卡密\n' + key + ' ?')) return;
-    try {
-      const resp = await apiFetch('/api/AdminLicenses/revoke?licenseKey=' + encodeURIComponent(key), {
-        method: 'POST'
-      });
-      if (!resp.ok) { toast('吊销失败（HTTP ' + resp.status + '）', 'error'); return; }
-      toast('已吊销', 'success');
-      loadList(listSkip);
-    } catch (err) {
-      if (err.message !== 'Unauthorized') toast('吊销失败：' + err.message, 'error');
-    }
-  }
-
-  $('#list-prev').addEventListener('click', () => loadList(Math.max(0, listSkip - PAGE_SIZE)));
-  $('#list-next').addEventListener('click', () => loadList(listSkip + PAGE_SIZE));
-  $('#list-refresh').addEventListener('click', () => loadList(listSkip));
-
-  // ===== Copy buttons (delegated rebind after rerender) =====
-  function bindCopyButtons() {
-    $$('[data-copy]').forEach(btn => {
-      btn.onclick = async (e) => {
-        e.stopPropagation();
-        const v = btn.dataset.copy;
-        try {
-          await navigator.clipboard.writeText(v);
-          toast('已复制', 'success');
-        } catch {
-          toast('复制失败，请手动选择', 'error');
-        }
-      };
-    });
-  }
-
   function escapeHtml(s) {
     return String(s ?? '').replace(/[&<>"']/g, c => ({
       '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
     }[c]));
+  }
+  function cssEscape(s) {
+    return (window.CSS && CSS.escape) ? CSS.escape(s) : String(s).replace(/["\\]/g, '\\$&');
   }
 
   // ===== Boot =====

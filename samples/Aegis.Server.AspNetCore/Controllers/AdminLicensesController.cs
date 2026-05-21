@@ -12,9 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Aegis.Server.AspNetCore.Controllers;
 
 /// <summary>
-/// Admin-only endpoints for batch generating Wraith Concurrent license keys.
-/// Bypasses Aegis LicenseService.GenerateLicenseAsync (which requires Product/Feature setup)
-/// and writes License + LicenseExtension entities directly for a streamlined Wraith flow.
+/// Admin-only endpoints for managing Wraith Concurrent license keys.
 /// </summary>
 [Route("api/[controller]")]
 [ApiController]
@@ -91,27 +89,100 @@ public class AdminLicensesController(ApplicationDbContext dbContext) : Controlle
 
     [HttpGet("list")]
     [AuthorizeMiddleware(["Admin"])]
-    public async Task<IActionResult> List([FromQuery] int skip = 0, [FromQuery] int take = 100)
+    public async Task<IActionResult> List(
+        [FromQuery] int skip = 0,
+        [FromQuery] int take = 100,
+        [FromQuery] string? search = null,
+        [FromQuery] string? status = null)
     {
         take = Math.Clamp(take, 1, 1000);
-        var rows = await (from l in dbContext.Licenses.AsNoTracking()
-                          where l.Type == LicenseType.Concurrent
-                          join e in dbContext.LicenseExtensions.AsNoTracking() on l.LicenseId equals e.LicenseId into eg
-                          from e in eg.DefaultIfEmpty()
-                          orderby l.IssuedOn descending
-                          select new
-                          {
-                              l.LicenseKey,
-                              l.Status,
-                              l.IssuedOn,
-                              l.ExpirationDate,
-                              l.MaxActiveUsersCount,
-                              l.ActiveUsersCount,
-                              ValidityDays = e == null ? (int?)null : e.ValidityDays,
-                              FirstActivatedAt = e == null ? (DateTime?)null : e.FirstActivatedAt
-                          })
-            .Skip(skip).Take(take).ToListAsync();
-        return Ok(rows);
+
+        var q = from l in dbContext.Licenses.AsNoTracking()
+                where l.Type == LicenseType.Concurrent
+                join e in dbContext.LicenseExtensions.AsNoTracking() on l.LicenseId equals e.LicenseId into eg
+                from e in eg.DefaultIfEmpty()
+                select new { l, e };
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var s = search.Trim();
+            // 卡密精确匹配 OR 备注包含
+            q = q.Where(x => x.l.LicenseKey == s || EF.Functions.Like(x.l.IssuedTo, "%" + s + "%"));
+        }
+
+        if (!string.IsNullOrWhiteSpace(status) &&
+            Enum.TryParse<LicenseStatus>(status, true, out var st))
+        {
+            q = q.Where(x => x.l.Status == st);
+        }
+
+        var total = await q.CountAsync();
+
+        var items = await q
+            .OrderByDescending(x => x.l.IssuedOn)
+            .Skip(skip).Take(take)
+            .Select(x => new
+            {
+                x.l.LicenseKey,
+                x.l.Status,
+                x.l.IssuedOn,
+                x.l.ExpirationDate,
+                x.l.MaxActiveUsersCount,
+                x.l.ActiveUsersCount,
+                x.l.IssuedTo,
+                ValidityDays = x.e == null ? (int?)null : x.e.ValidityDays,
+                FirstActivatedAt = x.e == null ? (DateTime?)null : x.e.FirstActivatedAt
+            })
+            .ToListAsync();
+
+        return Ok(new { total, items });
+    }
+
+    [HttpPost("update")]
+    [AuthorizeMiddleware(["Admin"])]
+    public async Task<IActionResult> Update([FromBody] UpdateLicenseRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.LicenseKey))
+            return BadRequest(new { error = "LicenseKey is required." });
+
+        var license = await dbContext.Licenses.FirstOrDefaultAsync(l => l.LicenseKey == request.LicenseKey);
+        if (license == null) return NotFound();
+
+        var ext = await dbContext.LicenseExtensions.FirstOrDefaultAsync(e => e.LicenseId == license.LicenseId);
+
+        if (request.ValidityDays.HasValue)
+        {
+            if (request.ValidityDays is < 1 or > 3650)
+                return BadRequest(new { error = "ValidityDays must be between 1 and 3650." });
+            if (ext != null)
+            {
+                ext.ValidityDays = request.ValidityDays.Value;
+                // 若已激活，同步重算过期时间
+                if (ext.FirstActivatedAt.HasValue)
+                    license.ExpirationDate = ext.FirstActivatedAt.Value.AddDays(request.ValidityDays.Value);
+            }
+        }
+
+        if (request.MaxConcurrentUsers.HasValue)
+        {
+            if (request.MaxConcurrentUsers is < 1 or > 1000)
+                return BadRequest(new { error = "MaxConcurrentUsers must be between 1 and 1000." });
+            license.MaxActiveUsersCount = request.MaxConcurrentUsers.Value;
+        }
+
+        if (request.IssuedTo != null)
+        {
+            license.IssuedTo = request.IssuedTo;
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.Status) &&
+            Enum.TryParse<LicenseStatus>(request.Status, true, out var st))
+        {
+            license.Status = st;
+        }
+
+        await dbContext.SaveChangesAsync();
+        return Ok(new { success = true });
     }
 
     [HttpPost("revoke")]
@@ -121,9 +192,57 @@ public class AdminLicensesController(ApplicationDbContext dbContext) : Controlle
         var license = await dbContext.Licenses.FirstOrDefaultAsync(l => l.LicenseKey == licenseKey);
         if (license == null) return NotFound();
         license.Status = LicenseStatus.Revoked;
-        dbContext.Licenses.Update(license);
         await dbContext.SaveChangesAsync();
         return Ok(new { success = true });
+    }
+
+    [HttpPost("revoke-batch")]
+    [AuthorizeMiddleware(["Admin"])]
+    public async Task<IActionResult> RevokeBatch([FromBody] BatchLicenseKeysRequest request)
+    {
+        if (request.LicenseKeys == null || request.LicenseKeys.Count == 0)
+            return BadRequest(new { error = "LicenseKeys is required." });
+
+        var affected = await dbContext.Licenses
+            .Where(l => request.LicenseKeys.Contains(l.LicenseKey))
+            .ExecuteUpdateAsync(s => s.SetProperty(l => l.Status, LicenseStatus.Revoked));
+
+        return Ok(new { success = true, affected });
+    }
+
+    [HttpPost("unrevoke-batch")]
+    [AuthorizeMiddleware(["Admin"])]
+    public async Task<IActionResult> UnrevokeBatch([FromBody] BatchLicenseKeysRequest request)
+    {
+        if (request.LicenseKeys == null || request.LicenseKeys.Count == 0)
+            return BadRequest(new { error = "LicenseKeys is required." });
+
+        var affected = await dbContext.Licenses
+            .Where(l => request.LicenseKeys.Contains(l.LicenseKey) && l.Status == LicenseStatus.Revoked)
+            .ExecuteUpdateAsync(s => s.SetProperty(l => l.Status, LicenseStatus.Valid));
+
+        return Ok(new { success = true, affected });
+    }
+
+    [HttpPost("delete")]
+    [AuthorizeMiddleware(["Admin"])]
+    public async Task<IActionResult> Delete([FromBody] BatchLicenseKeysRequest request)
+    {
+        if (request.LicenseKeys == null || request.LicenseKeys.Count == 0)
+            return BadRequest(new { error = "LicenseKeys is required." });
+
+        var ids = await dbContext.Licenses
+            .Where(l => request.LicenseKeys.Contains(l.LicenseKey))
+            .Select(l => l.LicenseId)
+            .ToListAsync();
+
+        if (ids.Count == 0) return Ok(new { success = true, affected = 0 });
+
+        await dbContext.Activations.Where(a => ids.Contains(a.LicenseId)).ExecuteDeleteAsync();
+        await dbContext.LicenseExtensions.Where(e => ids.Contains(e.LicenseId)).ExecuteDeleteAsync();
+        var affected = await dbContext.Licenses.Where(l => ids.Contains(l.LicenseId)).ExecuteDeleteAsync();
+
+        return Ok(new { success = true, affected });
     }
 
     private static string GenerateFormattedKey()
@@ -138,4 +257,18 @@ public class AdminLicensesController(ApplicationDbContext dbContext) : Controlle
         }
         return sb.ToString();
     }
+}
+
+public sealed class UpdateLicenseRequest
+{
+    public string LicenseKey { get; set; } = string.Empty;
+    public int? ValidityDays { get; set; }
+    public int? MaxConcurrentUsers { get; set; }
+    public string? IssuedTo { get; set; }
+    public string? Status { get; set; }
+}
+
+public sealed class BatchLicenseKeysRequest
+{
+    public List<string> LicenseKeys { get; set; } = new();
 }

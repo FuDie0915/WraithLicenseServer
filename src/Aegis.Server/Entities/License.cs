@@ -11,8 +11,8 @@ public class License
     public DateTime? ExpirationDate { get; set; }
     public string Issuer { get; set; } = string.Empty;
     public LicenseStatus Status { get; set; } = LicenseStatus.Valid;
-    public string IssuedTo { get; init; } = string.Empty;
-    public int? MaxActiveUsersCount { get; init; }
+    public string IssuedTo { get; set; } = string.Empty;
+    public int? MaxActiveUsersCount { get; set; }
     public int? ActiveUsersCount { get; set; }
     public string? HardwareId { get; set; } = string.Empty;
     public DateTime? SubscriptionExpiryDate { get; set; }
